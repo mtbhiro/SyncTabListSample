@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:my_flutter_blueprint/ui/screens/root_page.dart';
+import 'package:my_flutter_blueprint/ui/screens/sync_tab_scroll_page.dart';
 
 final routerProvider = Provider((ref) {
   return GoRouter(
@@ -11,7 +11,7 @@ final routerProvider = Provider((ref) {
         name: 'root',
         path: '/',
         builder: (context, state) {
-          return const RootPage();
+          return SyncTabScrollPage();
         },
       ),
     ],
