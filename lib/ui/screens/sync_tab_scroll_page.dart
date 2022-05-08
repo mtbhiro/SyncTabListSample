@@ -77,9 +77,6 @@ class _SyncTabScrollPageState extends State<SyncTabScrollPage>
         indicatorWeight: 3,
         indicatorColor: const Color(0xff213A9F),
         onTap: (index) async {
-          // setState(() {
-          //   _currentIndex = index;
-          // });
           isMoving = true;
           await _itemScrollController.scrollTo(
               index: index, duration: const Duration(milliseconds: 100));
@@ -180,16 +177,13 @@ class _SyncTabScrollPageState extends State<SyncTabScrollPage>
       return;
     }
     var positions = _itemPositionsListener.itemPositions.value;
-    positions
-        .toList()
-        .sort((a, b) => a.itemLeadingEdge.compareTo(b.itemLeadingEdge));
-    print(positions);
+    // 一番下までスクロールした時にitemPositionsの順番がずれることがあるので、一番近いものを使いたい。けど何故かこのコードだとソートされない
+    // positions
+    //     .toList()
+    //     .sort((a, b) => a.itemLeadingEdge.compareTo(b.itemLeadingEdge));
 
-    /// Target [ScrollView] is not attached to any views and/or has no listeners.
     if (positions.isEmpty) return;
 
-    /// Capture the index of the first [ItemPosition]. If the saved index is same
-    /// with the current one do nothing and return.
     var targetIndex = 0;
     var min = 1000.0;
     for (var element in positions) {
@@ -199,15 +193,11 @@ class _SyncTabScrollPageState extends State<SyncTabScrollPage>
       }
     }
     final firstIndex = positions.elementAt(0).index;
-    // if (_currentIndex == firstIndex) return;
     if (_currentIndex == targetIndex) return;
     setState(() {
       _currentIndex = targetIndex;
     });
-    // print("_currentIndex: $_currentIndex}");
 
-    /// A new index has been detected.
-    // await _handleTabScroll(firstIndex);
     _tabController.animateTo(_currentIndex);
   }
 }
